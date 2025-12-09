@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Task - Taskerrand</title>
+    <link rel="icon" href="images/note.png" type="image/png">
+    <script type="module" src="./report-task.js" defer></script>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <style>
+        .report-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .report-form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .report-form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .report-form-group select,
+        .report-form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .report-form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .report-form-group select:focus,
+        .report-form-group textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .report-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .report-buttons button {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .report-buttons .btn-primary {
+            background-color: #2563eb;
+            color: white;
+        }
+
+        .report-buttons .btn-primary:hover {
+            background-color: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+        .report-buttons .btn-cancel {
+            background-color: #6b7280;
+            color: white;
+        }
+
+        .report-buttons .btn-cancel:hover {
+            background-color: #4b5563;
+        }
+
+        .error {
+            background-color: #fee2e2;
+            color: #991b1b;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #dc2626;
+        }
+
+        .success {
+            background-color: #dcfce7;
+            color: #166534;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #22c55e;
+        }
+
+        @media (max-width: 600px) {
+            .report-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+
+            .report-buttons {
+                flex-direction: column;
+            }
+
+            .report-buttons button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="header-nav">
+            <h1>Taskerrand</h1>
+            <div class="hamburger" id="hamburger">☰</div>
+            <ul class="nav-links" id="nav-menu">
+                <li class="header-buttons"><a href="./dashboard.html">Dashboard</a></li>
+                <li class="header-buttons"><a href="./browse-tasks.html">Browse Tasks</a></li>
+                <li class="header-buttons"><a href="./post-task.html">Post Task</a></li>
+                <li class="header-buttons" id="admin-link" style="display: none;"><a href="./admin-dashboard.html">Admin</a></li>
+                <button id="google-logout-btn-id" class="header-buttons">Logout</button>
+                <li class="user-info">
+                    <img id="profile" src="" alt="Profile">
+                    <span id="username"></span>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="report-container">
+                <h2>Report Task</h2>
+                <div id="message-container"></div>
+
+                <form id="report-form">
+                    <div class="report-form-group">
+                        <label for="report-type">Report Type:</label>
+                        <select id="report-type" required>
+                            <option value="">-- Select a reason --</option>
+                            <option value="fraudulent">Fraudulent Post</option>
+                            <option value="illegal">Illegal Activity</option>
+                            <option value="inappropriate">Inappropriate Content</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="report-form-group">
+                        <label for="description">Description (Optional):</label>
+                        <textarea id="description" placeholder="Please provide details about why you are reporting this task..."></textarea>
+                    </div>
+
+                    <div class="report-buttons">
+                        <button type="submit" class="btn-primary">Submit Report</button>
+                        <button type="button" class="btn-cancel" onclick="goBack()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <h2>For complaints, feedbacks or other inquiries contact us thru:</h2> 
+        <div class="footer-contact">
+            <p>📞 09703237529</p> 
+            <p>✉️ taskerrandemail@gmail.com</p>
+        </div>
+        <p>&copy; 2025 Taskerrand. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const hamburger = document.getElementById("hamburger");
+            const navMenu = document.getElementById("nav-menu");
+
+            if (!hamburger || !navMenu) return;
+
+            hamburger.addEventListener("click", () => {
+                navMenu.classList.toggle("active");
+            });
+        });
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>
