@@ -59,7 +59,7 @@ async def get_current_user_db(
             email=user_data.get("email", ""),
             name=user_data.get("name", ""),
             photo_url=user_data.get("picture", ""),
-            is_admin=user_data.get("email") == ("neowarsia@gmail.com")  # Admin check
+            is_admin=user_data.get("email") == ("kimjongundaimengsu@gmail.com")  # Admin check
         )
         db.add(user)
         db.commit()
