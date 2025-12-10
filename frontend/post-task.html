@@ -19,6 +19,27 @@
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/footer.css">
+    <style>
+        /* Page-scoped: only affect the Cancel button on Post Task page */
+        #post-cancel-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            padding: 10px 14px;
+            border-radius: 5px;
+            width: 100%;
+            min-width: unset;
+        }
+
+        /* On larger screens keep a reasonable min-width to match Post button */
+        @media (min-width: 601px) {
+            #post-cancel-btn {
+                width: auto;
+                min-width: 120px;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -98,7 +119,7 @@
                         <button type="submit" class="btn btn-primary">Post Task</button>
                     </span>
                     <span class="post-task-buttons">
-                        <a href="./dashboard.html" class="btn btn-outline">Cancel</a>
+                        <a id="post-cancel-btn" href="./dashboard.html" class="btn btn-outline">Cancel</a>
                     </span>
                 </div> 
 
