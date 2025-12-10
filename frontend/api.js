@@ -132,6 +132,10 @@ export const api = {
     markNotificationRead: (notificationId) => apiRequest(`/api/notifications/${notificationId}/read`, {
         method: "PUT"
     })
+    ,
+    deleteNotification: (notificationId) => apiRequest(`/api/notifications/${notificationId}`, {
+        method: "DELETE"
+    })
 };
 
 // Search tasks by title (server-side substring match) with optional status filter

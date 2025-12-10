@@ -6,6 +6,7 @@
     <title>Browse Tasks - Taskerrand</title>
     <link rel="icon" href="images/note.png" type="image/png">
     <script type="module" src="./browse-tasks.js" defer></script>
+    <script type="module" src="./notification.js" defer></script>
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/footer.css">
@@ -46,6 +47,19 @@
         <nav class="header-nav">
             <h1>Taskerrand</h1>
             <div class="hamburger" id="hamburger">☰</div>
+            <div class="notification-container" id="global-notification-container">
+                <div class="notification-bell" id="notification-bell">🔔
+                    <span class="notification-badge" id="notification-badge">0</span>
+                </div>
+                <div class="notification-dropdown" id="notification-dropdown">
+                    <div class="notification-header">
+                        <span>Notifications</span>
+                    </div>
+                    <div id="notification-list">
+                        <!-- Notifications will be loaded here -->
+                    </div>
+                </div>
+            </div>
             <ul class="nav-links" id="nav-menu">
                 <li class="header-buttons"><a href="./dashboard.html">Dashboard</a></li>
                 <li class="header-buttons"><a href="./browse-tasks.html">Browse Tasks</a></li>

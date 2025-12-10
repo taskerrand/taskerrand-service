@@ -642,6 +642,24 @@ async def mark_notification_read(
     db.commit()
     return None
 
+
+@app.delete("/api/notifications/{notification_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_notification(
+    notification_id: int,
+    current_user: User = Depends(get_current_user_db),
+    db: Session = Depends(get_db)
+):
+    notification = db.query(Notification).filter(Notification.id == notification_id).first()
+    if not notification:
+        raise HTTPException(status_code=404, detail="Notification not found")
+
+    if notification.user_id != current_user.id and not current_user.is_admin:
+        raise HTTPException(status_code=403, detail="Not authorized")
+
+    db.delete(notification)
+    db.commit()
+    return None
+
 if __name__ == "__main__":
     uvicorn.run(app, host="localhost", port=8000)
 

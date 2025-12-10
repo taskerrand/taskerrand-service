@@ -34,7 +34,6 @@ onAuthStateChanged(auth, async (user) => {
 
         loadDashboardStats();
         loadMyTasks();
-        loadNotifications();
     } catch (error) {
         console.error("Error loading user data:", error);
         displayUserInfo(user, null);
@@ -162,105 +161,4 @@ if (logoutBtn) {
 
 
 
-// Notification Logic
-async function loadNotifications() {
-    try {
-        const notifications = await api.getNotifications();
-        const notificationList = document.getElementById("notification-list");
-        const notificationBadge = document.getElementById("notification-badge");
-
-        if (!notificationList) return;
-
-        // Update badge
-        const unreadCount = notifications.filter(n => !n.seen).length;
-        if (notificationBadge) {
-            notificationBadge.textContent = unreadCount;
-            notificationBadge.style.display = unreadCount > 0 ? "block" : "none";
-        }
-
-        if (notifications.length === 0) {
-            notificationList.innerHTML = '<div class="notification-empty">No notifications</div>';
-            return;
-        }
-
-        notificationList.innerHTML = notifications.map(n => `
-            <div class="notification-item ${n.seen ? '' : 'unread'}" onclick="handleNotificationClick(${n.id}, ${n.task_id}, ${n.seen})">
-                <div class="notification-title">${n.title}</div>
-                <div class="notification-message">${n.message}</div>
-                <div class="notification-time">${new Date(n.created_at).toLocaleString()}</div>
-                <div class="notification-actions" onclick="event.stopPropagation();">
-                    ${n.task_id ? `<button class="notification-view-btn" onclick="handleNotificationView(${n.id}, ${n.task_id}, ${n.seen})">View</button>` : ''}
-                </div>
-            </div>
-        `).join('');
-
-    } catch (error) {
-        console.error("Error loading notifications:", error);
-    }
-}
-
-window.handleNotificationClick = async function (notificationId, taskId, seen) {
-    try {
-        if (!seen) {
-            await api.markNotificationRead(notificationId);
-        }
-
-        // Close the notification dropdown
-        const dropdown = document.getElementById("notification-dropdown");
-        if (dropdown) {
-            dropdown.classList.remove("show");
-        }
-
-        if (taskId) {
-            window.location.href = `./task-detail.html?id=${taskId}`;
-        } else {
-            // Just reload notifications to update UI if no task link
-            loadNotifications();
-        }
-    } catch (error) {
-        console.error("Error handling notification click:", error);
-    }
-};
-
-window.handleNotificationView = async function (notificationId, taskId, seen) {
-    try {
-        if (!seen) {
-            await api.markNotificationRead(notificationId);
-        }
-
-        // Close the notification dropdown
-        const dropdown = document.getElementById("notification-dropdown");
-        if (dropdown) {
-            dropdown.classList.remove("show");
-        }
-
-        // Navigate to the task detail page
-        window.location.href = `./task-detail.html?id=${taskId}`;
-    } catch (error) {
-        console.error("Error handling notification view:", error);
-    }
-};
-
-// Notification bell event listener
-document.addEventListener("DOMContentLoaded", () => {
-    const bell = document.getElementById("notification-bell");
-    const dropdown = document.getElementById("notification-dropdown");
-
-    if (bell && dropdown) {
-        bell.addEventListener("click", (e) => {
-            e.stopPropagation();
-            dropdown.classList.toggle("show");
-        });
-
-        // Close dropdown when clicking outside
-        window.addEventListener("click", () => {
-            if (dropdown.classList.contains("show")) {
-                dropdown.classList.remove("show");
-            }
-        });
-
-        dropdown.addEventListener("click", (e) => {
-            e.stopPropagation();
-        });
-    }
-});
+// Notification UI and behavior moved to `notification.js` module to share across pages
