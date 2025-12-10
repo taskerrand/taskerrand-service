@@ -6,7 +6,6 @@
     <title>Reported Tasks - Taskerrand Admin</title>
     <link rel="icon" href="images/note.png" type="image/png">
     <script type="module" src="./reported-tasks.js" defer></script>
-    <script type="module" src="./notification.js" defer></script>
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/footer.css">
@@ -212,24 +211,25 @@
         <nav class="header-nav">
             <h1>Taskerrand - Admin</h1>
             <div class="hamburger" id="hamburger">☰</div>
-            <div class="notification-container" id="global-notification-container">
-                <div class="notification-bell" id="notification-bell">🔔
-                    <span class="notification-badge" id="notification-badge">0</span>
-                </div>
-                <div class="notification-dropdown" id="notification-dropdown">
-                    <div class="notification-header">
-                        <span>Notifications</span>
-                    </div>
-                    <div id="notification-list">
-                        <!-- Notifications will be loaded here -->
-                    </div>
-                </div>
-            </div>
             <ul class="nav-links" id="nav-menu">
                 <li class="header-buttons"><a href="./dashboard.html">User Dashboard</a></li>
                 <li class="header-buttons"><a href="./admin-dashboard.html">Admin Dashboard</a></li>
                 <li class="header-buttons"><a href="./reported-tasks.html">Reported Tasks</a></li>
                 <button id="google-logout-btn-id" class="header-buttons">Logout</button>
+                <li class="notification-container">
+                    <div class="notification-bell" id="notification-bell">
+                        🔔
+                        <span class="notification-badge" id="notification-badge">0</span>
+                    </div>
+                    <div class="notification-dropdown" id="notification-dropdown">
+                        <div class="notification-header">
+                            <span>Notifications</span>
+                        </div>
+                        <div id="notification-list">
+                            <!-- Notifications will be loaded here -->
+                        </div>
+                    </div>
+                </li>
                 <li class="user-info">
                     <img id="profile" src="" alt="Profile">
                     <span id="username"></span>

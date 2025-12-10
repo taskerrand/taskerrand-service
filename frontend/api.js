@@ -131,8 +131,7 @@ export const api = {
     getNotifications: () => apiRequest("/api/notifications"),
     markNotificationRead: (notificationId) => apiRequest(`/api/notifications/${notificationId}/read`, {
         method: "PUT"
-    })
-    ,
+    }),
     deleteNotification: (notificationId) => apiRequest(`/api/notifications/${notificationId}`, {
         method: "DELETE"
     })
