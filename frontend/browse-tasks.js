@@ -105,8 +105,6 @@ window.handleNotificationDelete = async function (notificationId, event) {
         console.error("Error deleting notification:", error);
     }
 };
-});
-
 async function loadTasks() {
     const container = document.getElementById("tasks-container");
     const paginationEl = document.getElementById("browse-pagination");
