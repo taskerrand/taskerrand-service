@@ -144,11 +144,19 @@ async function deleteTask(taskId, reportId) {
 
     try {
         await api.adminDeleteTask(taskId);
+        // Try to also dismiss the associated report (if it still exists).
+        try {
+            await api.deleteReport(reportId);
+        } catch (e) {
+            // If deleting the report fails (eg already removed), log and continue.
+            console.warn("Could not delete associated report:", e);
+        }
+
         alert("Task deleted successfully");
-        loadReports();
-      //  await dismissReport(reportId);
+        await loadReports();
     } catch (error) {
-        alert("Error deleting task: " + error.message);
+        console.error("Error deleting task:", error);
+        alert("Error deleting task: " + (error.message || String(error)));
     }
 }
 
