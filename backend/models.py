@@ -50,6 +50,8 @@ class Task(Base):
     feedback = relationship("Feedback", back_populates="task", uselist=False, cascade="all, delete-orphan")
     # Reports associated with this task; deleted when task is deleted
     reports = relationship("TaskReport", back_populates="task", cascade="all, delete-orphan")
+    # Notifications referencing this task; deleted when task is deleted
+    notifications = relationship("Notification", foreign_keys="Notification.task_id", cascade="all, delete-orphan")
 
 class Message(Base):
     __tablename__ = "messages"
@@ -109,4 +111,4 @@ class Notification(Base):
 
     # Relationships
     user = relationship("User", back_populates="notifications")
-    task = relationship("Task")
+    task = relationship("Task", foreign_keys=[task_id], back_populates="notifications")

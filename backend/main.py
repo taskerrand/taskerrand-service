@@ -204,6 +204,13 @@ async def delete_task(
     if task.poster_id != current_user.id and not current_user.is_admin:
         raise HTTPException(status_code=403, detail="Not authorized to delete this task")
     
+    # Delete any notifications referencing this task first to avoid FK constraint issues
+    try:
+        db.query(Notification).filter(Notification.task_id == task_id).delete(synchronize_session=False)
+    except Exception:
+        # If deletion of notifications fails for any reason, log and continue
+        pass
+    
     db.delete(task)
     db.commit()
     return None
@@ -527,7 +534,14 @@ async def admin_delete_task(
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
     
-    # Delete any reports related to this task first to avoid FK constraint issues
+    # Delete any notifications referencing this task first to avoid FK constraint issues
+    try:
+        db.query(Notification).filter(Notification.task_id == task_id).delete(synchronize_session=False)
+    except Exception:
+        # If deletion of notifications fails for any reason, log and continue
+        pass
+    
+    # Delete any reports related to this task to avoid FK constraint issues
     try:
         db.query(TaskReport).filter(TaskReport.task_id == task_id).delete(synchronize_session=False)
     except Exception:
