@@ -164,6 +164,16 @@ if (logoutBtn) {
 
 // Notification Logic
 async function loadNotifications() {
+    // Helper: ensure backend naive datetimes are treated as UTC when parsing in the browser
+    function formatNotificationDate(dateStr) {
+        if (!dateStr) return '';
+        // If string already contains timezone info (Z or ±HH:MM), parse directly
+        if (/[Zz]|[+\-]\d{2}:\d{2}$/.test(dateStr)) {
+            return new Date(dateStr).toLocaleString();
+        }
+        // Otherwise, assume UTC and append Z
+        try { return new Date(dateStr + 'Z').toLocaleString(); } catch (e) { return new Date(dateStr).toLocaleString(); }
+    }
     try {
         const notifications = await api.getNotifications();
         const notificationList = document.getElementById("notification-list");
@@ -187,7 +197,7 @@ async function loadNotifications() {
             <div class="notification-item ${n.seen ? '' : 'unread'}">
                 <div class="notification-title">${n.title}</div>
                 <div class="notification-message">${n.message}</div>
-                <div class="notification-time">${new Date(n.created_at).toLocaleString()}</div>
+                <div class="notification-time">${formatNotificationDate(n.created_at)}</div>
                 <div class="notification-actions" onclick="event.stopPropagation();">
                     ${n.task_id ? `<button class="notification-view-btn" onclick="handleNotificationView(${n.id}, ${n.task_id}, ${n.seen}, event)">View</button>` : ''}
                     <button class="notification-delete-btn" onclick="handleNotificationDelete(${n.id}, event)">Delete</button>
