@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help / User Manual - Taskerrand</title>
+    <link rel="icon" href="images/note.png" type="image/png">
+    <script type="module" src="./help.js" defer></script>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <style>
+        /* Page-scoped: improve indentation and spacing for lists in Help page only */
+        .container {
+            /* keep content readable with a comfortable max width */
+            max-width: 900px;
+        }
+        .container ul,
+        .container ol {
+            margin: 0 0 1rem 1.2rem; /* push lists slightly to the right */
+            padding-left: 1.05rem;
+            line-height: 1.6;
+        }
+        .container ul li,
+        .container ol li {
+            margin-bottom: 0.5rem;
+        }
+        .container ol {
+            list-style-type: decimal;
+        }
+        .container ul {
+            list-style-type: disc;
+        }
+        .container h3 {
+            margin-top: 1.25rem;
+            margin-bottom: 0.6rem;
+        }
+        /* Make code/inline elements wrap nicely in the help page */
+        .container code { white-space: normal; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="header-nav">
+            <h1><a href="./dashboard.html">Taskerrand</a></h1>
+            <div class="hamburger" id="hamburger" role="button" aria-label="Toggle menu" onclick="document.getElementById('nav-menu').classList.toggle('active')">☰</div>
+            <ul class="nav-links" id="nav-menu">
+                <li class="notification-container">
+                    <div class="notification-bell" id="notification-bell">
+                        🔔
+                        <span class="notification-badge" id="notification-badge">0</span>
+                    </div>
+                    <div class="notification-dropdown" id="notification-dropdown">
+                        <div class="notification-header">
+                            <span>Notifications</span>
+                        </div>
+                        <div id="notification-list">
+                            <!-- Notifications will be loaded here -->
+                        </div>
+                    </div>
+                </li>
+                <li class="header-buttons"><a href="./profile.html">Profile</a></li>
+                <li class="header-buttons"><a href="./help.html">Help</a></li>
+                <li class="header-buttons"><a href="./browse-tasks.html">Browse Tasks</a></li>
+                <li class="header-buttons"><a href="./post-task.html">Post Task</a></li>
+                <li class="header-buttons" id="admin-link" style="display: none;"><a href="./admin-dashboard.html">Admin</a></li>
+                <button id="google-logout-btn-id" class="header-buttons">Logout</button>
+
+                <li class="user-info">
+                    <img id="profile" src="" alt="Profile">
+                    <span id="username"></span>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <h2>Help & User Manual</h2>
+            <p>This page explains how the Taskerrand website works and how to use the site features.</p>
+            <br></br>
+
+            <h3>Getting Started</h3>
+            <ul>
+                <li><strong>Create an account / Sign in:</strong> Sign in using the site authentication. Use the Sign-in button on the landing page.</li>
+
+            </ul>
+
+
+            <br></br>
+            <h3>Navigation</h3>
+            <ul>
+                <li><strong>Dashboard:</strong> Shows your tasks and quick stats.</li>
+                <li><strong>Help:</strong> This page.</li>
+                <li><strong>Browse Tasks:</strong> Public list of tasks you can accept.</li>
+                <li><strong>Post Task:</strong> Create a new task as a creator.</li>
+
+                <li><strong>Notifications:</strong> Click the bell icon to view notifications. Use the "View" button to open related task, or "Delete" to remove the notification.</li>
+            </ul>
+
+            <br></br>
+            <h3>Posting a Task</h3>
+            <ol>
+                <li>Open <strong>Post Task</strong> from the nav.</li>
+                <li>Fill in required fields: title, description, payment, contact number, schedule and location. The map helps pick latitude/longitude.</li>
+                <li>Submit the form to post the task. Newly posted tasks have status <code>available</code>.</li>
+                <li>To cancel a task you posted: go to your Dashboard &gt; My Tasks and click the Cancel action for tasks that are still <code>available</code>.</li>
+            </ol>
+
+            <br></br>
+            <h3>Accepting and Completing Tasks</h3>
+            <ul>
+                <li>From <strong>Browse Tasks</strong>, open a task and click <em>Accept</em> to take it. Accepted tasks become <code>ongoing</code>.</li>
+                <li>When the work is done, the task seeker must upload a photo proof and then mark the task <em>Done</em>. The creator can then confirm completion.</li>
+                <li>Statuses may include: <code>available</code>, <code>ongoing</code>, <code>pending confirmation</code>, <code>completed</code>, <code>cancelled</code>.</li>
+            </ul>
+
+
+            <br></br>
+            <h3>Reporting a Task</h3>
+            <p>If you see an inappropriate or problematic task you can report it. Use the report flow and choose one of these types:</p>
+            <ul>
+                <li><strong>Fraudulent:</strong> Task is a scam or request for payment schemes.</li>
+                <li><strong>Illegal:</strong> Task requests or encourages illegal activity.</li>
+                <li><strong>Inappropriate:</strong> Offensive, abusive, or otherwise unacceptable content.</li>
+                <li><strong>Other:</strong> Any other reason provide details in the description.</li>
+            </ul>
+            <p>Admins will review reported tasks and may remove tasks or dismiss reports.</p>
+
+            <br></br>
+            <h3>Feedback and Ratings</h3>
+            <p>After completing a task, users can leave feedback and ratings for other users.</p>
+            <br></br>
+
+            <h3>Notifications</h3>
+            <ul>
+                <li>Notifications are shown via the bell icon in the header.</li>
+                <li>Each notification may reference a task. Use "View" to open the task. Use "Delete" to remove the notification.</li>
+                <li>Timestamps are shown in your browser locale/timezone.</li>
+            </ul>
+
+            <h3>Contact / Support</h3>
+            <p>For questions, feedback, or to report a problem with this system, contact the project owner at <strong>taskerrandemail@gmail.com</strong> or the phone number <strong>09703237529</strong></p>
+
+
+        </div>
+    </main>
+
+    <footer>
+        <h2>For complaints, feedbacks or other inquiries contact us thru:</h2>
+        <div class="footer-contact">
+            <p>📞 09703237529</p>
+            <p>✉️ taskerrandemail@gmail.com</p>
+        </div>
+        <p>&copy; 2025 Taskerrand. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const hamburger = document.getElementById("hamburger");
+            const navMenu = document.getElementById("nav-menu");
+
+            if (!hamburger || !navMenu) return;
+
+            hamburger.addEventListener("click", () => {
+                navMenu.classList.toggle("active");
+            });
+        });
+    </script>
+</body>
+</html>

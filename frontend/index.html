@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taskerrand Beta</title>
+    <link rel="icon" href="images/note.png" type="image/png">
+    <script src="./script.js" defer type="module"></script>
+    <link rel="stylesheet" href="/css/header.css"> 
+    
+    <link rel="stylesheet" href="/css/footer.css">
+
+    <style>
+                :root{ --primary: #2563eb; --primary-dark: #1e40af; --card-bg: #ffffff; }
+
+                body{
+                       background-color: rgb(15, 10, 68);
+                }
+                /* Page layout (index-only) */
+                main{
+                    display: flex;
+                    flex-direction: column;
+                    background-color: rgb(15, 10, 68);
+                    align-items: center;
+                    justify-content: center;
+                    padding: 20px;
+                    min-height: 70vh;
+                    height: auto; /* allow content to size naturally */
+                    box-sizing: border-box;
+                    width: 100%;
+                    max-width: 980px; /* keep main content from stretching past this width */
+                    margin: 0 auto; /* center main */
+                }
+
+                h1{ text-align: center; color: #000000; }
+
+                /* Center card */
+                .container-center{
+                    margin-top: 100px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+                    padding: 22px;
+                    border-radius: 12px;
+                    /* changed sign-in container background to be a bit darker */
+                    background-color: rgba(255,255,255,0.03);
+                    border: 1px solid rgba(255,255,255,0.06);
+                    color: #fff;
+                    width: min(600px, calc(100% - 32px));
+                    box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+                    box-sizing: border-box;
+                    gap: 10px;
+                }
+
+                .container-center2{
+                         margin-top: 100px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+                    padding: 18px;
+                    border-radius: 10px;
+                    background-color: transparent;
+                    color: #fff;
+                    width: min(760px, calc(100% - 32px));
+                    box-sizing: border-box;
+                    gap: 18px;
+                }
+
+                .about{ color: #e6eefc; max-width: 760px; text-align: center; }
+                p{ text-align: justify; color: #e6eefc; }
+
+                /* Google button — improved visual */
+                .google-button{
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 12px;
+                    padding: 12px 18px;
+                    background: linear-gradient(180deg, var(--primary), var(--primary-dark));
+                    color: white;
+                    border: 0;
+                    /* remove border radius to match header button style */
+                    border-radius: 0;
+                    position: relative;
+                    box-shadow: 0 10px 20px rgba(37,99,235,0.18), inset 0 -2px 6px rgba(0,0,0,0.12);
+                    font-weight: 700;
+                    font-size: 16px;
+                    cursor: pointer;
+                    transition: transform 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
+                    min-width: 220px;
+                    width: auto;
+                }
+                .google-button:active{ transform: translateY(1px); }
+                /* hover color + underline effect similar to header nav buttons */
+                .google-button:hover{ background-color: rgba(255,255,255,0.08); box-shadow: 0 14px 30px rgba(37,99,235,0.18); opacity: 0.98; }
+                .google-button:focus{ outline: 3px solid rgba(37,99,235,0.12); outline-offset: 3px; }
+
+                .google-button::after{ content: ''; position: absolute; left: 0; bottom: 0; width: 100%; height: 3px; background-color: rgba(255,255,255,0.9); transform: scaleX(0); transform-origin: center; transition: transform 220ms ease; }
+                .google-button:hover::after{ transform: scaleX(1); }
+
+                /* small icon inside button (left) */
+                .google-button .g-icon{ width:20px; height:20px; display:inline-flex; align-items:center; justify-content:center; }
+                .google-button .g-text{ display:inline-block; }
+
+                /* Responsive behavior */
+                @media (max-width: 900px){
+                    .container-center, .container-center2{ width: calc(100% - 32px); padding:16px; }
+                    .google-button{ min-width: 200px; font-size:15px; }
+                }
+
+                @media (max-width: 600px){
+                    .container-center{ padding:12px; gap:8px; }
+                    .google-button{ width:100%; justify-content:center; min-width:unset; padding:12px; font-size:15px; }
+                    .container-center2 .about{ text-align: left; }
+                }
+
+                /* Handle square or short/tall viewports */
+                @media (max-aspect-ratio: 1/1){
+                    .container-center{ width: calc(100% - 24px); padding:12px; }
+                    .google-button{ width:100%; }
+                }
+
+            </style>
+    <!-- your existing page content -->
+</div>
+    <header>
+        <h1>Taskerrand</h1>
+    </header>
+    
+    <main>
+        <div class="container-center">
+            <h2>Welcome to Taskerrand</h2>
+            <h4>Your Community’s On-Demand Help Hub</h4>
+            <br></br>
+            <p style="margin-bottom: 10px;">Sign in with your Google account to get started</p>
+            
+            <button id="google-login-btn-id" class="google-button" aria-label="Sign in with Google">
+                <span class="g-icon" aria-hidden="true">
+                    <!-- Google-style G (simplified) -->
+                    <svg width="20" height="20" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                        <path fill="#4285F4" d="M43.6 20.4H42V20H24v8h11.3C33.7 33 29 36 23.9 36 16.8 36 11 30.2 11 23s5.8-13 12.9-13c3.7 0 6.8 1.4 9.1 3.7l6.6-6.6C36.7 3.6 30.7 1 23.9 1 10.9 1 0 11.9 0 24.9S10.9 48 23.9 48c12.2 0 22.2-8.6 22.2-23 0-1.6-.2-3.2-.5-4.6z"/>
+                        <path fill="#34A853" d="M6.3 14.6l6.6 4.8C14 16.1 18.6 13 23.9 13c3.7 0 6.8 1.4 9.1 3.7l6.6-6.6C36.7 3.6 30.7 1 23.9 1 15.6 1 8.5 5.4 6.3 14.6z"/>
+                    </svg>
+                </span>
+                <span class="g-text">Sign in with Google</span>
+            </button>
+        </div>
+        <br></br>
+            <br></br>
+        <div class="container-center2">
+            <div class="about">
+                <h2>About Us</h2>
+                <p>
+                    Taskerrand is a platform designed to connect individuals 
+                    who need tasks done with those willing to complete them. 
+                    Whether you're looking to outsource small chores 
+                    or find opportunities to earn extra income, Taskerrand makes 
+                    it easy and efficient.
+                    Our mission is to simplify task management and foster a
+                    community where users can collaborate and support each other 
+                    in completing everyday tasks
+                </p>
+            </div>
+            <br></br>
+               <br></br>
+            <div class="about">
+                <h2>Contact Us</h2>
+                <p>📞Contact No. 09703237529</p>
+                <p>✉️ taskerrandemail@gmail.com</p>
+            </div>
+        </div>
+    
+    </main>
+    
+    <footer>
+        <p style="color: black;">&copy; 2025 Taskerrand. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

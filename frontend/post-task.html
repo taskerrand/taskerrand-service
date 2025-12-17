@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Task - Taskerrand</title>
+    <link rel="icon" href="images/note.png" type="image/png">
+    <script type="module" src="./post-task.js" defer></script>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <style>
+        /* Page-scoped: only affect the Cancel button on Post Task page */
+        #post-cancel-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            padding: 10px 14px;
+            border-radius: 5px;
+            width: 100%;
+            min-width: unset;
+        }
+
+        /* On larger screens keep a reasonable min-width to match Post button */
+        @media (min-width: 601px) {
+            #post-cancel-btn {
+                width: auto;
+                min-width: 120px;
+            }
+        }
+        /* Location inputs layout */
+        #locations-container .location-item { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+        #locations-container .location-item.active input[type='text'] { outline: 2px solid #2684ff; }
+        /* Make 'Add another location' button visually match other buttons */
+        #add-location-btn { border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="header-nav">
+            <h1><a href="./dashboard.html">Taskerrand</a></h1>
+            <div class="hamburger" id="hamburger">☰</div>
+            <ul class="nav-links" id="nav-menu">
+                <li class="notification-container">
+                    <div class="notification-bell" id="notification-bell">
+                        🔔
+                        <span class="notification-badge" id="notification-badge">0</span>
+                    </div>
+                    <div class="notification-dropdown" id="notification-dropdown">
+                        <div class="notification-header">
+                            <span>Notifications</span>
+                        </div>
+                        <div id="notification-list">
+                            <!-- Notifications will be loaded here -->
+                        </div>
+                    </div>
+                </li>            
+                <li class="header-buttons"><a href="./help.html">Help</a></li>
+                <li class="header-buttons"><a href="./browse-tasks.html">Browse Tasks</a></li>
+                <li class="header-buttons"><a href="./post-task.html">Post Task</a></li>
+                <li class="header-buttons" id="admin-link" style="display: none;"><a href="./admin-dashboard.html">Admin</a></li>
+                <button id="google-logout-btn-id" class="header-buttons">Logout</button>
+
+                <li class="user-info">
+                    <img id="profile" src="" alt="Profile">
+                    <span id="username"></span>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="container">
+            <h2>Post a New Task</h2>
+           
+            <form id="task-form" novalidate>
+                <div class="form-group">
+                    <label for="title">Task Title *</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Description *</label>
+                    <textarea id="description" name="description" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="payment">Payment Amount (₱) *</label>
+                    <input type="number" id="payment" name="payment" step="0.01" min="0" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="contact_number">Contact Number *</label>
+                    <!-- Accept digits only: inputmode for mobile, pattern for form, maxlength to limit length, and oninput sanitizer -->
+                    <input type="tel" id="contact_number" name="contact_number" inputmode="numeric" pattern="\d*" maxlength="15" title="Digits only" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="schedule">Schedule *</label>
+                    <input type="datetime-local" id="schedule" name="schedule" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Location(s) * (Click on the map to select)</label>
+
+                    <!-- Locations container: first (primary) location keeps original IDs for compatibility -->
+                    <div id="locations-container">
+                        <div class="location-item" data-index="0">
+                            <input type="text" id="location_address" data-index="0" name="location_address" placeholder="Search for address or click on map">
+                            <input type="hidden" id="location_lat" data-index="0" name="location_lat" required>
+                            <input type="hidden" id="location_lng" data-index="0" name="location_lng" required>
+                        </div>
+                    </div>
+
+                    <button type="button" id="add-location-btn" class="btn" style="display:none; margin-top:8px;">Add another location</button>
+
+                    <div id="map"></div>
+                </div>
+                <div id="error-message"></div>
+
+                <div class="post-task-buttons-container">
+                    <span class="post-task-buttons">
+                        <button type="submit" class="btn btn-primary">Post Task</button>
+                    </span>
+                    <span class="post-task-buttons">
+                        <a id="post-cancel-btn" href="./dashboard.html" class="btn btn-outline">Cancel</a>
+                    </span>
+                </div> 
+
+            </form>
+        </div>
+    </main>
+    <footer>
+        <h2>For complaints, feedbacks or other inquiries contact us thru:</h2> 
+        <div class="footer-contact">
+            <p>📞 09703237529</p> 
+            <p>✉️ taskerrandemail@gmail.com</p>
+        </div>
+        <p>&copy; 2025 Taskerrand. All rights reserved.</p>
+    </footer>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+    const hamburger = document.getElementById("hamburger");
+    const navMenu = document.getElementById("nav-menu");
+
+    if (!hamburger || !navMenu) return;
+
+    hamburger.addEventListener("click", () => {
+    navMenu.classList.toggle("active");
+            });
+        });
+    </script>
+</body>
+</html>
+

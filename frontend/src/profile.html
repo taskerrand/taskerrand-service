@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - Taskerrand</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"], input[type="email"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 80px;
+            resize: vertical;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .profile-display {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 30px;
+            border-left: 4px solid #4CAF50;
+        }
+        .profile-item {
+            margin-bottom: 10px;
+        }
+        .error {
+            color: #d32f2f;
+            background-color: #ffebee;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success {
+            color: #388e3c;
+            background-color: #e8f5e9;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>User Profile Management</h1>
+        <p>Manage your profile information securely. All fields are validated to prevent scams.</p>
+        
+        <div id="loading">Loading profile...</div>
+        
+        <div id="profileForm" class="hidden">
+            <form id="profileFormElement">
+                <div class="form-group">
+                    <label for="firstName">First Name:</label>
+                    <input type="text" id="firstName" name="firstName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" id="lastName" name="lastName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="contactNumber">Contact Number:</label>
+                    <input type="text" id="contactNumber" name="contactNumber" placeholder="e.g., +1-234-567-8900">
+                </div>
+                
+                <div class="form-group">
+                    <label for="address">Address:</label>
+                    <textarea id="address" name="address" placeholder="Enter your full address"></textarea>
+                </div>
+                
+                <button type="submit">Update Profile</button>
+            </form>
+        </div>
+        
+        <div id="messageContainer"></div>
+        
+        <div id="profileDisplay" class="hidden">
+            <h3>Current Profile Information</h3>
+            <div class="profile-display">
+                <div class="profile-item"><strong>First Name:</strong> <span id="displayFirstName">-</span></div>
+                <div class="profile-item"><strong>Last Name:</strong> <span id="displayLastName">-</span></div>
+                <div class="profile-item"><strong>Email:</strong> <span id="displayEmail">-</span></div>
+                <div class="profile-item"><strong>Contact Number:</strong> <span id="displayContactNumber">-</span></div>
+                <div class="profile-item"><strong>Address:</strong> <span id="displayAddress">-</span></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get user profile on load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserProfile();
+        });
+
+        // Load user profile from API
+        async function loadUserProfile() {
+            try {
+                // Simulating a token here - in a real app, this would come from authentication system
+                // Since this is a demo, we'll use a placeholder token
+                const token = localStorage.getItem('authToken') || 'demo_token';
+                
+                const response = await fetch('/api/users/me', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Failed to load profile: ${response.statusText}`);
+                }
+                
+                const userData = await response.json();
+                displayProfile(userData);
+                fillFormWithProfile(userData);
+                
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('profileForm').classList.remove('hidden');
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                showMessage(`Error loading profile: ${error.message}`, 'error');
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('profileForm').classList.remove('hidden');
+            }
+        }
+
+        // Display profile data
+        function displayProfile(data) {
+            document.getElementById('displayFirstName').textContent = data.first_name || '-';
+            document.getElementById('displayLastName').textContent = data.last_name || '-';
+            document.getElementById('displayEmail').textContent = data.email || '-';
+            document.getElementById('displayContactNumber').textContent = data.contact_number || '-';
+            document.getElementById('displayAddress').textContent = data.address || '-';
+            
+            document.getElementById('profileDisplay').classList.remove('hidden');
+        }
+
+        // Fill form with profile data
+        function fillFormWithProfile(data) {
+            document.getElementById('firstName').value = data.first_name || '';
+            document.getElementById('lastName').value = data.last_name || '';
+            document.getElementById('email').value = data.email || '';
+            document.getElementById('contactNumber').value = data.contact_number || '';
+            document.getElementById('address').value = data.address || '';
+        }
+
+        // Handle form submission
+        document.getElementById('profileFormElement').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                first_name: document.getElementById('firstName').value.trim(),
+                last_name: document.getElementById('lastName').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                contact_number: document.getElementById('contactNumber').value.trim(),
+                address: document.getElementById('address').value.trim()
+            };
+
+            // Basic validation
+            if (!formData.first_name || formData.first_name.length < 1 || formData.first_name.length > 50) {
+                showMessage('First name must be between 1 and 50 characters', 'error');
+                return;
+            }
+            
+            if (!formData.last_name || formData.last_name.length < 1 || formData.last_name.length > 50) {
+                showMessage('Last name must be between 1 and 50 characters', 'error');
+                return;
+            }
+            
+            if (!formData.email || !isValidEmail(formData.email)) {
+                showMessage('Please enter a valid email address', 'error');
+                return;
+            }
+            
+            // Contact number validation
+            if (formData.contact_number) {
+                const cleanContact = formData.contact_number.replace(/\D/g, '');
+                if (cleanContact.length < 7 || cleanContact.length > 15) {
+                    showMessage('Contact number must be between 7 and 15 digits', 'error');
+                    return;
+                }
+            }
+            
+            // Address validation
+            if (formData.address && (formData.address.length < 5 || formData.address.length > 200)) {
+                showMessage('Address must be between 5 and 200 characters', 'error');
+                return;
+            }
+
+            try {
+                // Simulating token - in real app, this comes from auth system
+                const token = localStorage.getItem('authToken') || 'demo_token';
+                
+                const response = await fetch('/api/users/me/profile', {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'Failed to update profile');
+                }
+                
+                const updatedUserData = await response.json();
+                displayProfile(updatedUserData);
+                showMessage('Profile updated successfully!', 'success');
+            } catch (error) {
+                console.error('Error updating profile:', error);
+                showMessage(`Error updating profile: ${error.message}`, 'error');
+            }
+        });
+
+        // Show message helper
+        function showMessage(message, type) {
+            const container = document.getElementById('messageContainer');
+            container.innerHTML = `<div class="${type}">${message}</div>`;
+            
+            // Auto-hide success messages after 5 seconds
+            if (type === 'success') {
+                setTimeout(() => {
+                    container.innerHTML = '';
+                }, 5000);
+            }
+        }
+        
+        // Simple email validation
+        function isValidEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+    </script>
+</body>
+</html>

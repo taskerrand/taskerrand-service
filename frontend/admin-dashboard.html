@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Taskerrand</title>
+    <link rel="icon" href="images/note.png" type="image/png">
+    <script type="module" src="./admin-dashboard.js" defer></script>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    
+</head>
+<body>
+    <header>
+        <nav class="header-nav">
+            <h1><a href="./admin-dashboard.html">Taskerrand - Admin</a></h1>
+            <div class="hamburger" id="hamburger">☰</div>
+            <ul class="nav-links" id="nav-menu">
+                <li class="notification-container">
+                    <div class="notification-bell" id="notification-bell">
+                        🔔
+                        <span class="notification-badge" id="notification-badge">0</span>
+                    </div>
+                    <div class="notification-dropdown" id="notification-dropdown">
+                        <div class="notification-header">
+                            <span>Notifications</span>
+                        </div>
+                        <div id="notification-list">
+                            <!-- Notifications will be loaded here -->
+                        </div>
+                    </div>
+                </li>
+                <li class="header-buttons"><a href="./dashboard.html">User Dashboard</a></li>
+
+                <li class="header-buttons"><a href="./reported-tasks.html">Reported Tasks</a></li>
+                <button id="google-logout-btn-id" class="header-buttons">Logout</button>
+
+                <li class="user-info">
+                    <img id="profile" src="" alt="Profile">
+                    <span id="username"></span>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="container">
+            <h2>Admin Dashboard</h2>
+            <div id="admin-stats" class="stats-grid"></div>
+        </div>
+        
+        <div class="container">
+            <h2>All Tasks</h2>
+            <div style="margin-bottom: 1rem;">
+                <label>Filter by status: </label>
+                <select id="task-filter" onchange="filterTasks()">
+                    <option value="">All</option>
+                    <option value="available">Available</option>
+                    <option value="ongoing">Ongoing</option>
+                    <option value="pending_confirmation">Pending Confirmation</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+            </div>
+            <!-- Admin search (navigate to admin-task-search results page) -->
+            <div style="margin-bottom: 1rem;">
+                <form id="admin-search-form" style="display:flex; gap:0.5rem; align-items:center;">
+                    <input id="admin-search-input" type="text" placeholder="Search tasks by title (admin)..." style="flex:1; padding:0.5rem; border-radius:5px;" />
+                    <button id="search-btn" type="submit" style="padding:0.5rem 0.9rem;">Search</button>
+                </form>
+            </div>
+                <div id="tasks-container" class="task-grid"></div>
+                <script>
+                    // Admin search form routing: navigate to admin-task-search.html with query param
+                    const adminSearchForm = document.getElementById('admin-search-form');
+                    if (adminSearchForm) {
+                        adminSearchForm.addEventListener('submit', (e) => {
+                            e.preventDefault();
+                            const q = document.getElementById('admin-search-input').value.trim();
+                            const status = document.getElementById('task-filter') ? document.getElementById('task-filter').value : '';
+                            if (!q) return;
+                            const params = `q=${encodeURIComponent(q)}` + (status ? `&status_filter=${encodeURIComponent(status)}` : '');
+                            window.location.href = `./admin-task-search.html?${params}`;
+                        });
+                    }
+                </script>
+        </div>
+        
+        <div class="container">
+            <h2>All Users</h2>
+            <div id="users-container"></div>
+        </div>
+    </main>
+    <footer>
+        <h2>For complaints, feedbacks or other inquiries contact us thru:</h2> 
+        <div class="footer-contact">
+            <p>📞 09703237529</p> 
+            <p>✉️ taskerrandemail@gmail.com</p>
+        </div>
+        <p>&copy; 2025 Taskerrand. All rights reserved.</p>
+    </footer>
+
+        <script>
+        document.addEventListener("DOMContentLoaded", () => {
+        const hamburger = document.getElementById("hamburger");
+        const navMenu = document.getElementById("nav-menu");
+
+        if (!hamburger || !navMenu) return;
+
+        hamburger.addEventListener("click", () => {
+        navMenu.classList.toggle("active");
+            });
+        });
+        </script>
+</body>
+</html>
+

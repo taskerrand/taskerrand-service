@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Details - Taskerrand</title>
+    <link rel="icon" href="images/note.png" type="image/png">
+    <script type="module" src="./task-detail.js" defer></script>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+    <style>
+        /* Page-scoped styles: match post-task button pattern for consistency */
+        #action-buttons.actions-wrapper {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        #action-buttons.actions-wrapper .btn {
+            flex: 1 1 0;
+            min-width: 120px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            padding: 10px 14px;
+            white-space: nowrap;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        #action-buttons.actions-wrapper .btn-primary {
+            min-width: 140px;
+        }
+        /* On very small screens, stack buttons full-width and allow wrapping */
+        @media (max-width: 520px) {
+            #action-buttons.actions-wrapper {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            #action-buttons.actions-wrapper .btn {
+                width: 100%;
+                min-width: unset;
+                white-space: normal;
+                padding: 10px 14px;
+            }
+        }
+    </style>
+  
+</head>
+<body>
+    <header>
+        <nav class="header-nav">
+            <h1><a href="./dashboard.html">Taskerrand</a></h1>
+            <div class="hamburger" id="hamburger">☰</div>
+            <ul class="nav-links" id="nav-menu">
+                <li class="notification-container">
+                    <div class="notification-bell" id="notification-bell">
+                        🔔
+                        <span class="notification-badge" id="notification-badge">0</span>
+                    </div>
+                    <div class="notification-dropdown" id="notification-dropdown">
+                        <div class="notification-header">
+                            <span>Notifications</span>
+                        </div>
+                        <div id="notification-list">
+                            <!-- Notifications will be loaded here -->
+                        </div>
+                    </div>
+                </li>             
+                <li class="header-buttons"><a href="./help.html">Help</a></li>
+                <li class="header-buttons"><a href="./browse-tasks.html">Browse Tasks</a></li>
+                <li class="header-buttons"><a href="./post-task.html">Post Task</a></li>
+                <li class="header-buttons" id="admin-link" style="display: none;"><a href="./admin-dashboard.html">Admin</a></li>
+                <button id="google-logout-btn-id" class="header-buttons">Logout</button>
+
+                <li class="user-info">
+                    <img id="profile" src="" alt="Profile">
+                    <span id="username"></span>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <div id="error-message"></div>
+        <div class="container" id="task-container">
+            <div class="loading">Loading task details...</div>
+        </div>
+        
+        <div class="container" id="actions-container" style="display: none;">
+            <h3>Action</h3>
+            <div id="action-buttons" class="actions-wrapper"></div>
+        </div>
+
+        <div class="container" id="feedback-container" style="display: none;">
+            <h3>Feedback & Rating</h3>
+            <div id="feedback-content"></div>
+            <div id="seeker-rating-summary" style="margin-top: 1rem;"></div>
+        </div>
+        
+        <div class="container" id="chat-container" style="display: none;">
+            <h3>Messages</h3>
+            <div class="chat-container">
+                <div class="chat-messages" id="messages"></div>
+                <div class="chat-input">
+                    <input type="text" id="message-input" placeholder="Type a message...">
+                    <button class="send-btn" id="send-message-btn">
+                        <span class="send-icon">➤</span>
+                        <span class="send-text">Send</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <h2>For complaints, feedbacks or other inquiries contact us thru:</h2> 
+        <div class="footer-contact">
+            <p>📞 09703237529</p> 
+            <p>✉️ taskerrandemail@gmail.com</p>
+        </div>
+        <p>&copy; 2025 Taskerrand. All rights reserved.</p>
+    </footer>
+    
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+    const hamburger = document.getElementById("hamburger");
+    const navMenu = document.getElementById("nav-menu");
+
+    if (!hamburger || !navMenu) return;
+
+    hamburger.addEventListener("click", () => {
+    navMenu.classList.toggle("active");
+            });
+        });
+    </script>
+    
+</body>
+</html>
+

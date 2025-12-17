@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Task Search - Taskerrand</title>
+    <link rel="icon" href="images/note.png" type="image/png">
+    <script type="module" src="./admin-task-search.js" defer></script>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <style>
+        /* Scoped styles for admin task search results page */
+        .search-form { display:flex; gap:0.5rem; margin-bottom:1rem; }
+        .search-form input { flex:1; padding:0.6rem 0.75rem; font-size:1rem; }
+        .search-form button { padding:0.6rem 0.9rem; font-size:1rem; }
+        /* Make results use the same grid as admin dashboard */
+        #admin-search-results-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        #admin-search-pagination { margin-top:1rem; display:flex; justify-content:center; gap:0.5rem; align-items:center; flex-wrap:wrap; }
+        #admin-search-pagination button { padding:8px 12px; font-size:1rem; border-radius:6px; border:1px solid rgba(0,0,0,0.12); background:white; cursor:pointer; }
+        #admin-search-pagination button[disabled] { opacity:0.6; cursor:default; }
+        #admin-search-pagination .page-btn { min-width:40px; text-align:center; }
+        @media (max-width:480px) {
+            .search-form { flex-direction:column; }
+            .search-form button { width:100%; }
+            .task-card { padding:10px; font-size:0.95rem; }
+            #admin-search-pagination button { padding:10px 14px; }
+        }
+        /* Back link hover underline similar to header nav */
+        .back-link {
+            display: inline-block;
+            position: relative;
+            padding: 8px 12px;
+            color: black;
+            text-decoration: none;
+        }
+        .back-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: rgb(0,0,0);
+            transform: scaleX(0);
+            transition: transform 0.5s ease;
+        }
+        .back-link:hover::before { transform: scaleX(1); }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="header-nav">
+            <h1><a href="./admin-dashboard.html">Taskerrand - Admin</a></h1>
+            <div class="hamburger" id="hamburger">☰</div>
+            <ul class="nav-links" id="nav-menu">
+                <li class="notification-container">
+                    <div class="notification-bell" id="notification-bell">
+                        🔔
+                        <span class="notification-badge" id="notification-badge">0</span>
+                    </div>
+                    <div class="notification-dropdown" id="notification-dropdown">
+                        <div class="notification-header">
+                            <span>Notifications</span>
+                        </div>
+                        <div id="notification-list">
+                            <!-- Notifications will be loaded here -->
+                        </div>
+                    </div>
+                </li>
+                <li class="header-buttons"><a href="./dashboard.html">User Dashboard</a></li>
+              
+                <button id="google-logout-btn-id" class="header-buttons">Logout</button>
+
+                <li class="user-info">
+                    <img id="profile" src="" alt="Profile">
+                    <span id="username"></span>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="container">
+            <h2 id="results-heading">Admin Search Results</h2>
+            <form id="search-form" class="search-form">
+                <input id="search-input" type="text" placeholder="Search tasks by title..." aria-label="Search tasks by title" />
+                <select id="search-status-select" aria-label="Filter status" style="padding:0.5rem;">
+                    <option value="">All</option>
+                    <option value="available">Available</option>
+                    <option value="ongoing">Ongoing</option>
+                    <option value="pending_confirmation">Pending Confirmation</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+                <button id="search-btn" type="submit">Search</button>
+            </form>
+
+            <div id="admin-search-results-container" class="task-grid">
+                <div class="loading">Searching...</div>
+            </div>
+
+            <div id="admin-search-pagination"></div>
+
+            <div style="margin-top:1rem;"><a class="back-link" href="./admin-dashboard.html">&larr; Back to Admin Dashboard</a></div>
+        </div>
+    </main>
+    <footer>
+        <h2>For complaints, feedbacks or other inquiries contact us thru:</h2> 
+        <div class="footer-contact">
+            <p>📞 09703237529</p> 
+            <p>✉️ taskerrandemail@gmail.com</p>
+        </div>
+        <p>&copy; 2025 Taskerrand. All rights reserved.</p>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('nav-menu');
+            if (!hamburger || !navMenu) return;
+            hamburger.addEventListener('click', () => navMenu.classList.toggle('active'));
+        });
+    </script>
+</body>
+</html>

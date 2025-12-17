@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Taskerrand</title>
+    <link rel="icon" href="images/note.png" type="image/png">
+    <script type="module" src="./other-users-dashboard.js" defer></script>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/footer.css">
+</head>
+<body>
+    <header>
+        <nav class="header-nav">
+            <h1><a href="./dashboard.html">Taskerrand</a></h1>
+            <div class="hamburger" id="hamburger">☰</div>
+            <ul class="nav-links" id="nav-menu">
+                <li class="notification-container">
+                    <div class="notification-bell" id="notification-bell">
+                        🔔
+                        <span class="notification-badge" id="notification-badge">0</span>
+                    </div>
+                    <div class="notification-dropdown" id="notification-dropdown">
+                        <div class="notification-header">
+                            <span>Notifications</span>
+                        </div>
+                        <div id="notification-list">
+                            <!-- Notifications will be loaded here -->
+                        </div>
+                    </div>
+                </li>              
+                <li class="header-buttons"><a href="./help.html">Help</a></li>
+                <li class="header-buttons"><a href="./browse-tasks.html">Browse Tasks</a></li>
+                <li class="header-buttons"><a href="./post-task.html">Post Task</a></li>
+                <li class="header-buttons" id="admin-link" style="display: none;"><a href="./admin-dashboard.html">Admin</a></li>
+                <button id="google-logout-btn-id" class="header-buttons">Logout</button>
+
+                <li class="user-info">
+                    <img id="profile" src="" alt="Profile">
+                    <span id="username"></span>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="container">
+            <h2 id="user-dashboard-title">User's Dashboard</h2>
+            <div id="profile-section">
+                <div id="loading-user-profile">Loading user profile...</div>
+                <div id="user-profile-info" style="display: none;">
+                    <h3>User Profile</h3>
+                    <div class="profile-details-grid">
+                        <div class="profile-detail">
+                            <label>Name:</label>
+                            <span id="profile-name">-</span>
+                        </div>
+                        <div class="profile-detail">
+                            <label>Email:</label>
+                            <span id="profile-email">-</span>
+                        </div>
+                        <div class="profile-detail">
+                            <label>Address:</label>
+                            <span id="profile-address">-</span>
+                        </div>
+                        <div class="profile-detail">
+                            <label>Member Since:</label>
+                            <span id="profile-created-at">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="stats"></div>
+        </div>
+
+        <div class="container">
+            <h2 id="user-tasks-title">User's Tasks</h2>
+            <div style="margin-bottom: 1rem;">
+                <label>Filter by status: </label>
+                <select id="user-task-filter" onchange="filterUserTasks()">
+                    <option value="">All</option>
+                    <option value="available">Available</option>
+                    <option value="ongoing">Ongoing</option>
+                    <option value="pending_confirmation">Pending Confirmation</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+            </div>
+            <div id="user-tasks" class="task-grid"></div>
+        </div>
+    </main>
+    <footer>
+        <h2>For complaints, feedbacks or other inquiries contact us thru:</h2> 
+        <div class="footer-contact">
+            <p>📞 09703237529</p> 
+            <p>✉️ taskerrandemail@gmail.com</p>
+        </div>
+        <p>&copy; 2025 Taskerrand. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const hamburger = document.getElementById("hamburger");
+            const navMenu = document.getElementById("nav-menu");
+
+            if (!hamburger || !navMenu) return;
+
+            hamburger.addEventListener("click", () => {
+                navMenu.classList.toggle("active");
+            });
+        });
+    </script>
+</body>
+</html>

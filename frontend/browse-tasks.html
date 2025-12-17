@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Tasks - Taskerrand</title>
+    <link rel="icon" href="images/note.png" type="image/png">
+    <script type="module" src="./browse-tasks.js" defer></script>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <style>
+        /* Page-scoped pagination styling: center controls and increase button size */
+        #browse-pagination {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        #browse-pagination button {
+            padding: 8px 12px; /* slightly increased padding */
+            font-size: 1rem;
+            border-radius: 6px;
+            border: 1px solid rgba(0,0,0,0.12);
+            background: white;
+            cursor: pointer;
+        }
+
+        #browse-pagination button[disabled] {
+            opacity: 0.6;
+            cursor: default;
+        }
+
+        /* Slightly wider numeric buttons for readability */
+        #browse-pagination .page-btn {
+            min-width: 40px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="header-nav">
+            <h1><a href="./dashboard.html">Taskerrand</a></h1>
+            <div class="hamburger" id="hamburger">☰</div>
+            <ul class="nav-links" id="nav-menu">
+                <li class="notification-container">
+                    <div class="notification-bell" id="notification-bell">
+                        🔔
+                        <span class="notification-badge" id="notification-badge">0</span>
+                    </div>
+                    <div class="notification-dropdown" id="notification-dropdown">
+                        <div class="notification-header">
+                            <span>Notifications</span>
+                        </div>
+                        <div id="notification-list">
+                            <!-- Notifications will be loaded here -->
+                        </div>
+                    </div>
+                </li>             
+                <li class="header-buttons"><a href="./help.html">Help</a></li>
+                <li class="header-buttons"><a href="./browse-tasks.html">Browse Tasks</a></li>
+                <li class="header-buttons"><a href="./post-task.html">Post Task</a></li>
+                <li class="header-buttons" id="admin-link" style="display: none;"><a href="./admin-dashboard.html">Admin</a></li>
+                <button id="google-logout-btn-id" class="header-buttons">Logout</button>
+
+                <li class="user-info">
+                    <img id="profile" src="" alt="Profile">
+                    <span id="username"></span>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="container">
+            <h2>Browse Available Tasks</h2>
+            <form id="search-form" style="margin-bottom:1rem; display:flex; gap:0.5rem;">
+                <input id="search-input" type="text" placeholder="Search tasks by title..." style="flex:1; padding:0.5rem;" />
+                <button id="search-btn" type="submit" style="padding:0.5rem 1rem;">Search</button>
+            </form>
+            <div id="tasks-container" class="task-grid">
+                <div class="loading">Loading tasks...</div>
+            </div>
+            <div id="browse-pagination"></div>
+        </div>
+    </main>
+    <footer>
+        <h2>For complaints, feedbacks or other inquiries contact us thru:</h2> 
+        <div class="footer-contact">
+            <p>📞 09703237529</p> 
+            <p>✉️ taskerrandemail@gmail.com</p>
+        </div>
+        <p>&copy; 2025 Taskerrand. All rights reserved.</p>
+    </footer>
+
+        <script>
+        document.addEventListener("DOMContentLoaded", () => {
+        const hamburger = document.getElementById("hamburger");
+        const navMenu = document.getElementById("nav-menu");
+
+        if (!hamburger || !navMenu) return;
+
+        hamburger.addEventListener("click", () => {
+        navMenu.classList.toggle("active");
+            });
+        });
+        </script>
+
+</body>
+</html>
+

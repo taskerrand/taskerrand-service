@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reported Tasks - Taskerrand Admin</title>
+    <link rel="icon" href="images/note.png" type="image/png">
+    <script type="module" src="./reported-tasks.js" defer></script>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <style>
+        .report-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .report-type-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .report-type-badge.fraudulent {
+            background-color: #fed7aa;
+            color: #92400e;
+        }
+
+        .report-type-badge.illegal {
+            background-color: #fecaca;
+            color: #7f1d1d;
+        }
+
+        .report-type-badge.inappropriate {
+            background-color: #fbcfe8;
+            color: #9f1239;
+        }
+
+        .report-type-badge.other {
+            background-color: #d1d5db;
+            color: #374151;
+        }
+
+        .report-info {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .report-info p {
+            margin: 0.5rem 0;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .report-description {
+            background-color: #f9fafb;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .report-description h4 {
+            margin: 0 0 0.5rem 0;
+            color: #333;
+        }
+
+        .report-description p {
+            margin: 0;
+            color: #666;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .task-details {
+            background-color: #f3f4f6;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+
+        .task-details h4 {
+            margin: 0 0 0.5rem 0;
+            color: #333;
+        }
+
+        .task-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .task-meta p {
+            margin: 0;
+            color: #555;
+        }
+
+        .task-meta strong {
+            color: #333;
+        }
+
+        .report-actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .report-actions button {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        /* Report actions buttons use basic styles; hover lift handled below */
+
+        .btn-view {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .btn-view:hover {
+            background-color: #2563eb;
+            transform: translateY(-2px);
+        }
+
+        .btn-delete-task {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        .btn-delete-task:hover {
+            background-color: #dc2626;
+            transform: translateY(-2px);
+        }
+
+        .btn-dismiss {
+            background-color: #6b7280;
+            color: white;
+        }
+
+        .btn-dismiss:hover {
+            background-color: #4b5563;
+            transform: translateY(-2px);
+        }
+
+        .no-reports {
+            text-align: center;
+            padding: 2rem;
+            background-color: #f9fafb;
+            border-radius: 10px;
+            color: #666;
+        }
+
+        .empty-state {
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;  
+            border-radius: 10px;
+            text-align: center;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .report-card {
+                padding: 1rem;
+            }
+
+            .report-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .task-meta {
+                grid-template-columns: 1fr;
+            }
+
+            .report-actions {
+                flex-direction: column;
+            }
+
+            .report-actions button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="header-nav">
+            <h1><a href="./admin-dashboard.html">Taskerrand - Admin</a></h1>
+            <div class="hamburger" id="hamburger">☰</div>
+            <ul class="nav-links" id="nav-menu">
+                <li class="notification-container">
+                    <div class="notification-bell" id="notification-bell">
+                        🔔
+                        <span class="notification-badge" id="notification-badge">0</span>
+                    </div>
+                    <div class="notification-dropdown" id="notification-dropdown">
+                        <div class="notification-header">
+                            <span>Notifications</span>
+                        </div>
+                        <div id="notification-list">
+                            <!-- Notifications will be loaded here -->
+                        </div>
+                    </div>
+                </li>                
+                <li class="header-buttons"><a href="./dashboard.html">User Dashboard</a></li>
+        
+                <button id="google-logout-btn-id" class="header-buttons">Logout</button>
+
+                <li class="user-info">
+                    <img id="profile" src="" alt="Profile">
+                    <span id="username"></span>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <h2>Reported Tasks</h2>
+            <div id="reports-container"></div>
+        </div>
+    </main>
+
+    <footer>
+        <h2>For complaints, feedbacks or other inquiries contact us thru:</h2> 
+        <div class="footer-contact">
+            <p>📞 09703237529</p> 
+            <p>✉️ taskerrandemail@gmail.com</p>
+        </div>
+        <p>&copy; 2025 Taskerrand. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const hamburger = document.getElementById("hamburger");
+            const navMenu = document.getElementById("nav-menu");
+
+            if (!hamburger || !navMenu) return;
+
+            hamburger.addEventListener("click", () => {
+                navMenu.classList.toggle("active");
+            });
+        });
+    </script>
+</body>
+</html>

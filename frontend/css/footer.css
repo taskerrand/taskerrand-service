@@ -1,0 +1,29 @@
+footer{
+    background-color: rgb(246, 246, 246);
+    color: rgb(0, 0, 0);
+    padding: 60px;
+    min-height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;  
+}
+footer h2 {
+    margin-bottom: 10px;
+}
+footer .footer-contact {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+footer .footer-contact p {
+    margin: 0;
+}
+footer p {
+    margin: 5px 0;
+}
